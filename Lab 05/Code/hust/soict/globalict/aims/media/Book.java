@@ -1,0 +1,107 @@
+package hust.soict.globalict.aims.media;
+
+import hust.soict.globalict.aims.exception.RepeatException;
+import hust.soict.globalict.aims.media.Media;
+
+import java.util.ArrayList;
+
+public class Book extends Media {
+    /* private int id;
+    private String title;
+    private String category;
+    private float cost; */
+    private ArrayList<String> authors = new ArrayList<String>();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public float getCost() {
+        return cost;
+    }
+
+    public void setCost(float cost) {
+        this.cost = cost;
+    }
+    public boolean searchAuthor(String authorName){
+        boolean found = false;
+        for(String element:this.authors){
+            if(authorName.equals(element))
+                found = true;
+        }
+        return found;
+    }
+
+    public void addAuthor(String authorName) throws RepeatException {
+        boolean found = this.searchAuthor(authorName);
+        if(found == false){
+            this.authors.add(authorName);
+        }
+        else
+            throw new RepeatException("Repeated!");
+    }
+
+    public void showAuthor(){
+        for(String author:this.authors){
+            System.out.println(author);
+        }
+    }
+
+    public void removeAuthor(String authorName){
+        boolean found = this.searchAuthor(authorName);
+        if(found == true){
+            this.authors.remove(authorName);
+        }else
+            System.out.println("No author!");
+    }
+    @Override
+    public String toString(){
+        return "Book: " + title + " Cost: " + cost;
+    }
+    public void display(){
+        System.out.println(this.toString());
+    }
+
+    public static void main(String[] args) {
+        Book book1 = new Book();
+        book1.setTitle("Convex Optimization");
+        try{
+            book1.addAuthor("Stephen Boyd");
+        } catch (RepeatException r) {
+            r.printStackTrace();
+        }
+
+        try{
+            book1.addAuthor("Lieven Vandenberghe");
+        } catch (RepeatException r) {
+            r.printStackTrace();
+        }
+        book1.setCost(10.99f);
+        book1.showAuthor();
+        book1.removeAuthor("Stephen Boyd");
+        book1.showAuthor();
+        Book book2 = new Book();
+        book2.setCost(5.99f);
+    }
+}
+
